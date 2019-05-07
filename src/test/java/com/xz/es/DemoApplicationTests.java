@@ -87,4 +87,14 @@ public class DemoApplicationTests {
 			System.out.println(item.toString());
 		}
 	}
+	
+	@Test
+	public void getAllItems() {
+		List<Item> results = itemServiceImpl.getAllItems();
+		
+		for (Item item : results) {
+			System.out.println(item);
+		}
+		
+	}
 }

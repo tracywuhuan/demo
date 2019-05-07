@@ -4,14 +4,23 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.lucene.search.MatchAllDocsQuery;
 import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.GeoBoundingBoxQueryBuilder;
 import org.elasticsearch.index.query.GeoDistanceQueryBuilder;
 import org.elasticsearch.index.query.GeoPolygonQueryBuilder;
+import org.elasticsearch.index.query.MatchAllQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.search.MatchQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
 import com.xz.es.entity.Item;
@@ -24,6 +33,9 @@ public class ItemServiceImpl implements ItemService{
 	
 	@Resource
 	private ItemRepository itemRepository;
+	
+	@Resource
+	private ElasticsearchTemplate elasticsearchTemplate;
 	
 	@Override
 	public Boolean insertItem(Item item) {
@@ -74,8 +86,14 @@ public class ItemServiceImpl implements ItemService{
 
 	@Override
 	public List<Item> getAllItems() {
-		// TODO Auto-generated method stub
-		return null;
+	    NativeSearchQueryBuilder searchQuery = new NativeSearchQueryBuilder();
+	    BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+	    boolQueryBuilder.must(QueryBuilders.matchAllQuery());
+	    searchQuery.withQuery(boolQueryBuilder);
+	    
+	    List<Item> results = elasticsearchTemplate.queryForList(searchQuery.build(), Item.class);
+	    
+	    return results;
 	}
 
 	@Override

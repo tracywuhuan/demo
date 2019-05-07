@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class springConfiguration {
+public class SpringConfiguration {
 
 	/**
      * Transport client transport client.
@@ -21,6 +21,7 @@ public class springConfiguration {
      */
     @Bean
     public TransportClient transportClient() throws UnknownHostException {
+    	String address = "10.0.0.7";
         TransportClient client = new PreBuiltXPackTransportClient(Settings.builder()
                 .put("cluster.name", "my-application")
                 .put("xpack.security.user", "elastic:123456")
@@ -29,7 +30,7 @@ public class springConfiguration {
                 .put("xpack.security.transport.ssl.keystore.path", "certs/elastic-certificates.p12")
                 .put("xpack.security.transport.ssl.verification_mode", "certificate")
                 .build())
-                .addTransportAddress(new TransportAddress(InetAddress.getByName("10.0.0.7"), 9300));
+                .addTransportAddress(new TransportAddress(InetAddress.getByName(address), 9300));
         return client;
     }
 }
