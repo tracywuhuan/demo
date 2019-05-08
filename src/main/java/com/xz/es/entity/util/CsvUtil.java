@@ -2,6 +2,8 @@ package com.xz.es.entity.util;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.supercsv.cellprocessor.Optional;
 import org.supercsv.cellprocessor.ParseDouble;
@@ -28,7 +30,7 @@ public class CsvUtil {
 	/**
 	 * An example of reading using CsvDozerBeanReader.
 	 */
-	public static void readWithCsvDozerBeanReader(File file) throws Exception {
+	public static List<Item> readWithCsvDozerBeanReader(File file) throws Exception {
 	        
 	        final CellProcessor[] processors = new CellProcessor[] { 
 	                new ParseLong(), //id
@@ -50,17 +52,20 @@ public class CsvUtil {
 	                
 	                
 	                Item item;
+	                List<Item> items = new ArrayList<>();
 	                while( (item = beanReader.read(Item.class, processors)) != null ) {
+	                		items.add(item);
 	                        System.out.println(String.format("lineNo=%s, rowNo=%s, item=%s", beanReader.getLineNumber(),
 	                                beanReader.getRowNumber(), item));
 	                }
-	                
+	                return items;
 	        }
 	        finally {
 	                if( beanReader != null ) {
 	                        beanReader.close();
 	                }
 	        }
+			
 	}
 	
 }
