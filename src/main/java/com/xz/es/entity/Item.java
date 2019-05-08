@@ -1,11 +1,11 @@
 package com.xz.es.entity;
 
-import org.elasticsearch.common.geo.GeoPoint;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.annotations.GeoPointField;
+
 
 @Document(indexName = "item",type = "docs")
 public class Item {
@@ -34,17 +34,17 @@ public class Item {
 	private String images;
 	
 	@GeoPointField
-	private GeoPoint location;
-	
-	public GeoPoint getLocation() {
+	private MyGeoPoint location;
+		
+	public MyGeoPoint getLocation() {
 		return location;
 	}
 
-	public void setLocation(GeoPoint location) {
+	public void setLocation(MyGeoPoint location) {
 		this.location = location;
 	}
 	
-	public Item(Long id, String title, String category, String brand, Double price, String images, GeoPoint location) {
+	public Item(Long id, String title, String category, String brand, Double price, String images, MyGeoPoint location) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -95,6 +95,44 @@ public class Item {
 		this.images = images;
 	}
 	
+	
+	public static class MyGeoPoint {
+        private double lat;
+        private double lon;
+
+        public MyGeoPoint(double lat, double lon) {
+			this.lat = lat;
+			this.lon = lon;
+		}
+        
+        public MyGeoPoint() {
+		}
+
+        public double getLat() {
+			return lat;
+		}
+
+
+		public void setLat(double lat) {
+			this.lat = lat;
+		}
+
+
+		public double getLon() {
+			return lon;
+		}
+
+
+		public void setLon(double lon) {
+			this.lon = lon;
+		}
+
+
+		@Override
+        public String toString() {
+            return "MyGeoPoint{" + "lat=" + lat + ", lon=" + lon + '}';
+        }
+    }
 	
 	
 }
