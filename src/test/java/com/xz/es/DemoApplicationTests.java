@@ -1,5 +1,7 @@
 package com.xz.es;
 
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.xz.es.service.impl.ItemServiceImpl;
 import com.xz.es.entity.Item;
 import com.xz.es.entity.Item.MyGeoPoint;
+import com.xz.es.entity.util.CsvUtil;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -52,6 +55,22 @@ public class DemoApplicationTests {
 		gp = new MyGeoPoint(39.82058, 116.373229);
 		item = new Item(2L, "小米之家", "线下店2", "小米", 200000.00, "http://image.baidu.com/13123.jpg", gp);
 		itemServiceImpl.insertItem(item);
+	}
+	
+	@Test
+	public void insertItemsFromCsv() {
+		try {
+			URL url = this.getClass().getResource("/test.csv");
+			File file = new File(url.getFile());
+
+			List<Item> items = CsvUtil.readWithCsvDozerBeanReader(file);
+			itemServiceImpl.insertItems(items);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	@Test
