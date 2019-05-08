@@ -3,7 +3,7 @@ package com.xz.es;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.elasticsearch.common.geo.GeoPoint;
+import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.xz.es.service.impl.ItemServiceImpl;
 import com.xz.es.entity.Item;
+import com.xz.es.entity.Item.MyGeoPoint;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -31,24 +32,24 @@ public class DemoApplicationTests {
 	public void contextLoads() {
 	}
 
-	//@Test
+	@Test
 	public void createIndex() {
 		elasticsearchTemplate.createIndex(Item.class);
 		elasticsearchTemplate.putMapping(Item.class);
 	}
 
-	//@Test
+	@Test
 	public void deleteIndex() {
 		elasticsearchTemplate.deleteIndex(Item.class);
 	}
 
-	//@Test
+	@Test
 	public void insert() {
-		GeoPoint gp = new GeoPoint(40.035627, 116.342776);
+		MyGeoPoint gp = new MyGeoPoint(40.035627, 116.342776);
 		Item item = new Item(1L, "小米之家", "线下店1", "小米", 200000.00, "http://image.baidu.com/13123.jpg", gp);
 		itemServiceImpl.insertItem(item);
 		
-		gp = new GeoPoint(39.82058, 116.373229);
+		gp = new MyGeoPoint(39.82058, 116.373229);
 		item = new Item(2L, "小米之家", "线下店2", "小米", 200000.00, "http://image.baidu.com/13123.jpg", gp);
 		itemServiceImpl.insertItem(item);
 	}
@@ -97,4 +98,6 @@ public class DemoApplicationTests {
 		}
 		
 	}
+	
+	
 }
