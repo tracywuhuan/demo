@@ -75,35 +75,58 @@ public class DemoApplicationTests {
 	
 	@Test
 	public void getItemByLocationDistance() {
-		Pageable pageable = new PageRequest(0, 10);
+		
+		Pageable pageable = PageRequest.of(0, 10);
 		GeoPoint gp = new GeoPoint(40.035627, 116.342776);
-		Page<Item> items = itemServiceImpl.getItemByLocationDistance(gp, "100km", pageable);
-		for (Item item : items) {
+		Page<Item> itempages = itemServiceImpl.getItemsPagesByLocationDistance(gp, "10km", pageable);
+		List<Item> itemlist = itemServiceImpl.getItemsByLocationDistance(gp, "10km", pageable);
+		System.out.println("count:"+itemServiceImpl.getItemsCountByLocationDistance(gp, "10km"));
+		
+		for (Item item : itempages) {
+			System.out.println(item.toString());
+		}
+		
+		for (Item item : itemlist) {
 			System.out.println(item.toString());
 		}
 	}
 	
 	@Test
 	public void getItemByLocationBox() {
-		Pageable pageable = new PageRequest(0, 10);
+		Pageable pageable = PageRequest.of(0, 10);
 		GeoPoint topLeft = new GeoPoint(40.169467,116.192125);//六环左上角
 		GeoPoint bottomRight = new GeoPoint(39.822785,116.523276);//六环右下角
-		Page<Item> items = itemServiceImpl.getItemByLocationBox(topLeft, bottomRight, pageable);
-		for (Item item : items) {
+		Page<Item> itempages = itemServiceImpl.getItemsPagesByLocationBox(topLeft, bottomRight, pageable);
+		List<Item> itemlist = itemServiceImpl.getItemsByLocationBox(topLeft, bottomRight, pageable);
+		
+		System.out.println("count:"+itemServiceImpl.getItemsCountByLocationBox(topLeft, bottomRight));
+		
+		for (Item item : itempages) {
+			System.out.println(item.toString());
+		}
+		
+		for (Item item : itemlist) {
 			System.out.println(item.toString());
 		}
 	}
 	
 	@Test
 	public void getItemByLocationPolygon() {
-		Pageable pageable = new PageRequest(0, 10);
+		Pageable pageable = PageRequest.of(0, 10);
 		List<GeoPoint> points = new ArrayList<>();           
 		points.add(new GeoPoint(40.073246,116.138658));
 		points.add(new GeoPoint(40.150498,116.29216));
-		points.add(new GeoPoint(40.150498,116.29216));
 		points.add(new GeoPoint(39.914492,116.401969));
-		Page<Item> items = itemServiceImpl.getItemByLocationPolygon(points, pageable);
-		for (Item item : items) {
+		Page<Item> itempages = itemServiceImpl.getItemsPagesByLocationPolygon(points, pageable);
+		List<Item> itemlist = itemServiceImpl.getItemsByLocationPolygon(points, pageable);
+		
+		System.out.println("count:"+itemServiceImpl.getItemsCountByLocationPolygon(points));
+		
+		for (Item item : itempages) {
+			System.out.println(item.toString());
+		}
+		
+		for (Item item : itemlist) {
 			System.out.println(item.toString());
 		}
 	}
