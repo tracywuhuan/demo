@@ -18,11 +18,23 @@ public interface ItemService {
 	
 	Boolean dropItem(Item item);
 	
-	Page<Item> getItemByLocationBox(GeoPoint topLeft, GeoPoint bottomRight,Pageable pageable);
+	Page<Item> getItemsPagesByLocationBox(GeoPoint topLeft, GeoPoint bottomRight,Pageable pageable);
 	
-	Page<Item> getItemByLocationDistance(GeoPoint gp, String distance,Pageable pageable);
+	List<Item> getItemsByLocationBox(GeoPoint topLeft, GeoPoint bottomRight,Pageable pageable);
 	
-	Page<Item> getItemByLocationPolygon(List<GeoPoint> pointlist, Pageable pageable);
+	long getItemsCountByLocationBox(GeoPoint topLeft, GeoPoint bottomRight);
+	
+	Page<Item> getItemsPagesByLocationDistance(GeoPoint gp, String distance,Pageable pageable);
+	
+	List<Item> getItemsByLocationDistance(GeoPoint gp, String distance,Pageable pageable);
+	
+	long getItemsCountByLocationDistance(GeoPoint gp, String distance);
+	
+	Page<Item> getItemsPagesByLocationPolygon(List<GeoPoint> pointlist, Pageable pageable);
+	
+	List<Item> getItemsByLocationPolygon(List<GeoPoint> pointlist, Pageable pageable);
+	
+	long getItemsCountByLocationPolygon(List<GeoPoint> pointlist);
 	
 	List<Item> getAllItems();
 }
