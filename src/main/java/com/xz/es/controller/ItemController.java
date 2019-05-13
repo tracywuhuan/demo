@@ -25,6 +25,21 @@ public class ItemController {
 	private ItemServiceImpl itemServiceImpl;
 	
 	/**
+	 * Get the health status of elastic search cluster
+	 */
+	@RequestMapping(value = "/health",method = RequestMethod.GET)
+	public boolean getHealthStatus() {
+		try {
+			return itemServiceImpl.ping();
+		} catch (Exception e) {
+			
+			return false;
+		}
+		
+	}
+	
+	/**
+	 * get items by GeoDistanceQuery
 	 * example:http://localhost:8080/xz/itemsbydistance?location=40.035627,116.342776&distance=10km&from=0&size=100
 	 */	
 	@RequestMapping(value = "/itemsbydistance", method = RequestMethod.GET)
@@ -40,6 +55,7 @@ public class ItemController {
 	}
 	
 	/**
+	 * get items by GeoBoundingBoxQuery
 	 * example:http://localhost:8080/xz/itemsbybox?topleft=40.169467,116.192125&bottomright=39.822785,116.523276&from=0&size=100
 	 */
 	@RequestMapping(value = "/itemsbybox", method = RequestMethod.GET)
@@ -58,6 +74,7 @@ public class ItemController {
 	}
 	
 	/**
+	 * get items by GeoPolygonQuery
 	 * example:post http://localhost:8080/xz/itemsbypolygon
 	 * {
 	 * 	"myGeoPoints":
