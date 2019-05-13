@@ -1,5 +1,7 @@
 package com.xz.es;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -31,10 +33,16 @@ public class DemoApplicationTests {
 	@Autowired
 	private ItemServiceImpl itemServiceImpl;
 
-	//@Test
+	
+	@Test
 	public void contextLoads() {
 	}
 
+	@Test
+	public void ping() {
+		assertTrue(itemServiceImpl.ping());
+	}
+	
 	@Test
 	public void createIndex() {
 		elasticsearchTemplate.createIndex(Item.class);
@@ -45,7 +53,20 @@ public class DemoApplicationTests {
 	public void deleteIndex() {
 		elasticsearchTemplate.deleteIndex(Item.class);
 	}
-
+	
+	@Test
+	public void deleteAllDocs() {
+		itemServiceImpl.dropAllItems();
+		/*
+		DeleteQuery deleteQuery = new DeleteQuery();
+		BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+		
+		boolQueryBuilder.must(QueryBuilders.matchAllQuery());
+		deleteQuery.setQuery(boolQueryBuilder);
+		elasticsearchTemplate.delete(deleteQuery,Item.class);
+		*/
+	}
+	
 	@Test
 	public void insert() {
 		MyGeoPoint gp = new MyGeoPoint(40.035627, 116.342776);
