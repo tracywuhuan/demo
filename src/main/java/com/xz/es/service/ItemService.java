@@ -9,14 +9,18 @@ import org.springframework.data.domain.Pageable;
 import com.xz.es.entity.Item;
 
 public interface ItemService {
+	
+	boolean ping();
 
 	Item insertItem(Item item);
 	
 	void insertItems(List<Item> items);
 	
-	Boolean updateItem(Item item);
+	Item updateItem(Item item);
 	
-	Boolean dropItem(Item item);
+	void dropItem(Item item);
+	
+	void dropItems(List<Item> items);
 	
 	Page<Item> getItemsPagesByLocationBox(GeoPoint topLeft, GeoPoint bottomRight,Pageable pageable);
 	
@@ -37,4 +41,6 @@ public interface ItemService {
 	long getItemsCountByLocationPolygon(List<GeoPoint> pointlist);
 	
 	List<Item> getAllItems();
+	
+	void dropAllItems();
 }

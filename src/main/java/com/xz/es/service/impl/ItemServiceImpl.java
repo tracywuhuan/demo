@@ -6,6 +6,11 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
+import org.elasticsearch.action.ActionFuture;
+import org.elasticsearch.action.admin.cluster.health.ClusterHealthRequest;
+import org.elasticsearch.action.admin.cluster.health.ClusterHealthResponse;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.cluster.health.ClusterHealthStatus;
 import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.GeoBoundingBoxQueryBuilder;
@@ -27,12 +32,26 @@ import com.xz.es.service.ItemService;
 @Service
 public class ItemServiceImpl implements ItemService{
 
+	@Resource
+	TransportClient client;
 	
 	@Resource
 	private ItemRepository itemRepository;
 	
 	@Resource
 	private ElasticsearchTemplate elasticsearchTemplate;
+	
+	@Override
+	public boolean ping() {
+		ActionFuture<ClusterHealthResponse> health = client.admin().cluster().health(new ClusterHealthRequest());
+		ClusterHealthStatus status = health.actionGet().getStatus();
+		if (status.value() == ClusterHealthStatus.RED.value()) {
+			throw new RuntimeException(
+					"elasticsearch cluster health status is red.");
+		}
+		return true;
+	}
+	
 	
 	@Override
 	public Item insertItem(Item item) {
@@ -50,17 +69,24 @@ public class ItemServiceImpl implements ItemService{
 	}
 
 	@Override
-	public Boolean updateItem(Item item) {
-		// TODO Auto-generated method stub
-		return null;
+	public Item updateItem(Item item) {
+		return insertItem(item);
 	}
 
 	@Override
-	public Boolean dropItem(Item item) {
-		// TODO Auto-generated method stub
-		return null;
+	public void dropItem(Item item) {
+		itemRepository.delete(item);
 	}
 
+	@Override
+	public void dropItems(List<Item> items) {
+		itemRepository.deleteAll(items);
+	}
+	
+	@Override
+	public void dropAllItems() {
+		itemRepository.deleteAll();
+	}
 	@Override
 	public Page<Item> getItemsPagesByLocationDistance(GeoPoint gp, String distance,Pageable pageable) {
 		
