@@ -20,6 +20,14 @@ public class FunctionTest {
 
 		CsvUtil.readWithCsvDozerBeanReader(file);
 	}
+	
+	@Test
+	public void testAoiHomeWorkCSV() throws Exception {
+		URL url = this.getClass().getResource("/000199_0");
+		File file = new File(url.getFile());
+
+		CsvUtil.readWithCsvDozerBeanReaderAoiHomeWork(file);
+	}
 
 	@Test
 	public void generateCsvSample() throws FileNotFoundException, UnsupportedEncodingException {

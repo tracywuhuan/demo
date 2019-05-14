@@ -10,11 +10,6 @@ import org.springframework.data.elasticsearch.annotations.GeoPointField;
 @Document(indexName = "item",type = "docs")
 public class Item {
 
-	@Override
-	public String toString() {
-		return "Item [id=" + id + ", title=" + title + ", category=" + category + ", brand=" + brand + ", price="
-				+ price + ", images=" + images + ", location=" + location + "]";
-	}
 	@Id
 	private Long id;
 	
@@ -95,6 +90,11 @@ public class Item {
 		this.images = images;
 	}
 	
+	@Override
+	public String toString() {
+		return "Item [id=" + id + ", title=" + title + ", category=" + category + ", brand=" + brand + ", price="
+				+ price + ", images=" + images + ", location=" + location + "]";
+	}
 	
 	public static class MyGeoPoint {
         private double lat;
