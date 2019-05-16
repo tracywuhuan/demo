@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xz.es.entity.AoiHomeWork;
 import com.xz.es.entity.Item.MyGeoPoint;
-import com.xz.es.entity.PolyonRequestBean;
+import com.xz.es.entity.PolyonRequestDto;
 import com.xz.es.service.impl.AoiHomeWorkServiceImpl;
 
 @RestController
@@ -40,9 +40,9 @@ public class AoiHomeWorkController {
 	
 	/**
 	 * get items by GeoDistanceQuery
-	 * example:http://localhost:8080/xz/aoihomework/itemsbydistance?location=40.035627,116.342776&distance=10km&from=0&size=100
+	 * example:http://localhost:8080/xz/aoihomework/items/distance?location=40.035627,116.342776&distance=10km&from=0&size=100
 	 */	
-	@RequestMapping(value = "/itemsbydistance", method = RequestMethod.GET)
+	@RequestMapping(value = "/items/distance", method = RequestMethod.GET)
 	public List<AoiHomeWork> getItemsByLocationDistance(@RequestParam(value = "location") String location,
 			@RequestParam(value = "distance") String distance, @RequestParam(value = "from") int from,
 			@RequestParam(value = "size") int size) {
@@ -56,9 +56,9 @@ public class AoiHomeWorkController {
 	
 	/**
 	 * get items by GeoBoundingBoxQuery
-	 * example:http://localhost:8080/xz/aoihomework/itemsbybox?topleft=40.169467,116.192125&bottomright=39.822785,116.523276&from=0&size=100
+	 * example:http://localhost:8080/xz/aoihomework/items/box?topleft=40.169467,116.192125&bottomright=39.822785,116.523276&from=0&size=100
 	 */
-	@RequestMapping(value = "/itemsbybox", method = RequestMethod.GET)
+	@RequestMapping(value = "/items/box", method = RequestMethod.GET)
 	public List<AoiHomeWork> getItemsByLocationBox(@RequestParam(value = "topleft") String topleft,
 			@RequestParam(value = "bottomright") String bottomright, @RequestParam(value = "from") int from,
 			@RequestParam(value = "size") int size) {
@@ -75,7 +75,7 @@ public class AoiHomeWorkController {
 	
 	/**
 	 * get items by GeoPolygonQuery
-	 * example:post http://localhost:8080/xz/itemsbypolygon
+	 * example:post http://localhost:8080/xz/items/polygon
 	 * {
 	 * 	"myGeoPoints":
 	 * 	[
@@ -87,15 +87,15 @@ public class AoiHomeWorkController {
 	 * 	"size":10
 	 * }
 	 */
-	@RequestMapping(value = "/itemsbypolygon", method = RequestMethod.POST)
-	public List<AoiHomeWork> getItemsByLocationPolygon(@RequestBody PolyonRequestBean polyonRequestBean) {
+	@RequestMapping(value = "/items/polygon", method = RequestMethod.POST)
+	public List<AoiHomeWork> getItemsByLocationPolygon(@RequestBody PolyonRequestDto polyonRequestDto) {
 		
-		List<MyGeoPoint> myGeoPoints = polyonRequestBean.getMyGeoPoints();
+		List<MyGeoPoint> myGeoPoints = polyonRequestDto.getMyGeoPoints();
 		List<GeoPoint> geoPoints = new ArrayList<GeoPoint>();
 		for (MyGeoPoint myGeoPoint : myGeoPoints) {
 			geoPoints.add(new GeoPoint(myGeoPoint.getLat(), myGeoPoint.getLon()));
 		}
-		List<AoiHomeWork> items = aoiHomeWorkServiceImpl.getItemsByLocationPolygon(geoPoints, PageRequest.of(polyonRequestBean.getFrom(), polyonRequestBean.getSize()));
+		List<AoiHomeWork> items = aoiHomeWorkServiceImpl.getItemsByLocationPolygon(geoPoints, PageRequest.of(polyonRequestDto.getFrom(), polyonRequestDto.getSize()));
 		return items;
 	}
 }

@@ -41,7 +41,7 @@ public class AoiHomeWorkServiceImpl implements AoiHomeWorkService{
 	
 	@Resource
 	private ElasticsearchTemplate elasticsearchTemplate;
-	
+		
 	@Override
 	public boolean ping() {
 		ActionFuture<ClusterHealthResponse> health = client.admin().cluster().health(new ClusterHealthRequest());

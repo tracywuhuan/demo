@@ -14,6 +14,13 @@ import com.xz.es.entity.util.CsvUtil;
 public class FunctionTest {
 
 	@Test
+	public void test111() {
+		String string1= "/SY1/var/zosmf/data/app/CAV0R4";
+		String string2 = "(.*)/data/app/CAV[1-9]R[1-9](.*)";
+		System.out.println(string1.matches(string2));
+	}
+	
+	@Test
 	public void testCSV() throws Exception {
 		URL url = this.getClass().getResource("/test.csv");
 		File file = new File(url.getFile());

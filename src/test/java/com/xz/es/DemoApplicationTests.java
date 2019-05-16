@@ -45,9 +45,6 @@ public class DemoApplicationTests {
 
 	@Test
 	public void ping() throws IOException {
-		URL url = this.getClass().getResource("/test.csv");
-		File file = new File(url.getFile());
-		System.out.println(file.getParentFile().getCanonicalPath());
 		assertTrue(itemServiceImpl.ping());
 	}
 	

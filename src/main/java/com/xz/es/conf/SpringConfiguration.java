@@ -35,7 +35,10 @@ public class SpringConfiguration {
 	private int port;
 	
 	@NotNull
-	private String keyStorePath;
+	private String key;
+	
+	@NotNull
+	private String crt;
 	
 	
 	public String getAddress() {
@@ -53,26 +56,36 @@ public class SpringConfiguration {
 	public void setPort(int port) {
 		this.port = port;
 	}
-
-	public String getKeyStorePath() {
-		return keyStorePath;
-	}
-
-	public void setKeyStorePath(String keyStorePath) {
-		this.keyStorePath = keyStorePath;
-	}
 	
-    @Bean(destroyMethod = "close")
+	
+    public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getCrt() {
+		return crt;
+	}
+
+	public void setCrt(String crt) {
+		this.crt = crt;
+	}
+
+	@Bean(destroyMethod = "close")
     public TransportClient transportClient() throws Exception {
     	//String address = "9.119.56.156";
         @SuppressWarnings("resource")
 		TransportClient client = new PreBuiltXPackTransportClient(Settings.builder()
                 .put("cluster.name", "my-application")
-                .put("xpack.security.user", "wuhuan:123456")
+                .put("xpack.security.user", "elastic:123456")
                 .put("xpack.security.transport.ssl.enabled",true)
                 .put("client.transport.sniff", true)
                 //.put("xpack.security.transport.ssl.truststore.path", "certs/elastic-certificates.p12")
-                .put("xpack.security.transport.ssl.keystore.path", keyStorePath)
+                .put("xpack.security.transport.ssl.key", key)
+                .put("xpack.security.transport.ssl.certificate", crt)
                 .put("xpack.security.transport.ssl.verification_mode", "certificate")
                 .build())
                 .addTransportAddress(new TransportAddress(InetAddress.getByName(address), port));

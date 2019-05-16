@@ -9,6 +9,18 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.annotations.GeoPointField;
 
+/**
+ * 
+ * @author wuhuan
+ * 
+ * grid_x, grid_y ,location 代表居住或者工作网格的位置
+ * city_id 代表城市id
+ * bid 代表 AOI id
+ * name 代表居住或者工作的aoi的名称
+ * center_x center_y 代表aoi中心点位置
+ * num 居住网格中工作的aoi人数，反过来工作网格中居住的aoi人数   也一样
+ *
+ */
 @Document(indexName = "aoi",type = "home_work")
 public class AoiHomeWork {
 	

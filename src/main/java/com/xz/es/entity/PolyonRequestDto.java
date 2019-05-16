@@ -7,13 +7,13 @@ import org.springframework.stereotype.Component;
 import com.xz.es.entity.Item.MyGeoPoint;
 
 @Component
-public class PolyonRequestBean {
+public class PolyonRequestDto {
 
 	List<MyGeoPoint> myGeoPoints;
 	int from;
 	int size;
 	
-	public PolyonRequestBean() {
+	public PolyonRequestDto() {
 		
 	}
 
@@ -41,7 +41,7 @@ public class PolyonRequestBean {
 		this.size = size;
 	}
 
-	public PolyonRequestBean(List<MyGeoPoint> myGeoPoints, int from, int size) {
+	public PolyonRequestDto(List<MyGeoPoint> myGeoPoints, int from, int size) {
 		super();
 		this.myGeoPoints = myGeoPoints;
 		this.from = from;
