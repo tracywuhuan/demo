@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.xz.es.entity.Item;
 import com.xz.es.entity.Item.MyGeoPoint;
-import com.xz.es.entity.PolyonRequestDto;
+import payloads.PolyonRequest;
 import com.xz.es.service.impl.ItemServiceImpl;
 
 @RestController
@@ -88,7 +88,7 @@ public class ItemController {
 	 * }
 	 */
 	@RequestMapping(value = "/itemsbypolygon", method = RequestMethod.POST)
-	public List<Item> getItemsByLocationPolygon(@RequestBody PolyonRequestDto polyonRequestDto) {
+	public List<Item> getItemsByLocationPolygon(@RequestBody PolyonRequest polyonRequestDto) {
 		
 		List<MyGeoPoint> myGeoPoints = polyonRequestDto.getMyGeoPoints();
 		List<GeoPoint> geoPoints = new ArrayList<GeoPoint>();

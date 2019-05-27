@@ -1,4 +1,4 @@
-package com.xz.es.entity;
+package payloads;
 
 import java.util.List;
 
@@ -6,14 +6,13 @@ import org.springframework.stereotype.Component;
 
 import com.xz.es.entity.Item.MyGeoPoint;
 
-@Component
-public class PolyonRequestDto {
+public class PolyonRequest {
 
 	List<MyGeoPoint> myGeoPoints;
 	int from;
 	int size;
 	
-	public PolyonRequestDto() {
+	public PolyonRequest() {
 		
 	}
 
@@ -41,7 +40,7 @@ public class PolyonRequestDto {
 		this.size = size;
 	}
 
-	public PolyonRequestDto(List<MyGeoPoint> myGeoPoints, int from, int size) {
+	public PolyonRequest(List<MyGeoPoint> myGeoPoints, int from, int size) {
 		super();
 		this.myGeoPoints = myGeoPoints;
 		this.from = from;

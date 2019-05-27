@@ -40,7 +40,17 @@ public class SpringConfiguration {
 	@NotNull
 	private String crt;
 	
+	@NotNull
+	private String ca;
 	
+	public String getCa() {
+		return ca;
+	}
+
+	public void setCa(String ca) {
+		this.ca = ca;
+	}
+
 	public String getAddress() {
 		return address;
 	}
@@ -80,12 +90,13 @@ public class SpringConfiguration {
         @SuppressWarnings("resource")
 		TransportClient client = new PreBuiltXPackTransportClient(Settings.builder()
                 .put("cluster.name", "my-application")
-                .put("xpack.security.user", "elastic:123456")
+                .put("xpack.security.user", "elastic:dev@123")
                 .put("xpack.security.transport.ssl.enabled",true)
-                .put("client.transport.sniff", true)
-                //.put("xpack.security.transport.ssl.truststore.path", "certs/elastic-certificates.p12")
+                //加上sniffer 阿里云的连不上了。。。
+                //.put("client.transport.sniff", true)
                 .put("xpack.security.transport.ssl.key", key)
                 .put("xpack.security.transport.ssl.certificate", crt)
+                .put("xpack.ssl.certificate_authorities",ca)
                 .put("xpack.security.transport.ssl.verification_mode", "certificate")
                 .build())
                 .addTransportAddress(new TransportAddress(InetAddress.getByName(address), port));

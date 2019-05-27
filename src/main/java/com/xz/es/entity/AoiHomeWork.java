@@ -1,8 +1,5 @@
 package com.xz.es.entity;
 
-
-import java.util.UUID;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
